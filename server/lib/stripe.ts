@@ -5,5 +5,5 @@ if (!process.env.STRIPE_SECRET_KEY) {
 }
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock', {
-  apiVersion: '2025-01-27.acacia', // Use latest api version available or compatible
+  apiVersion: '2025-12-15.clover',
 });

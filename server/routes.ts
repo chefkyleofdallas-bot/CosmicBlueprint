@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { api, buildUrl } from "@shared/routes";
 import { reportDetails, astrologyInputSchema, type Order } from "@shared/schema";
 import { z } from "zod";
+import Stripe from 'stripe';
 import { stripe } from "./lib/stripe";
 import { sendEmail } from "./lib/email";
 import { generateReportPDF } from "./lib/pdf";
@@ -37,6 +38,7 @@ export async function registerRoutes(
             timeOfBirth: input.timeOfBirth,
             cityOfBirth: input.cityOfBirth,
             countryOfBirth: input.countryOfBirth,
+            customerEmail: input.customerEmail,
           }
         };
         await storage.createOrder(order);
@@ -116,6 +118,7 @@ export async function registerRoutes(
           timeOfBirth: input.timeOfBirth,
           cityOfBirth: input.cityOfBirth,
           countryOfBirth: input.countryOfBirth,
+          customerEmail: input.customerEmail,
         }
       };
       await storage.createOrder(order);

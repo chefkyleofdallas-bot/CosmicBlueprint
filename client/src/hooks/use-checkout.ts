@@ -1,5 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import { api, type AstrologyInput } from "@shared/routes";
+import { api } from "@shared/routes";
+import { type AstrologyInput } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
 
 export function useCreateCheckoutSession() {
