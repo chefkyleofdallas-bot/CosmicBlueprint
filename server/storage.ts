@@ -1,37 +1,33 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { type Order } from "@shared/schema";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  createOrder(order: Order): Promise<Order>;
+  getOrderBySessionId(sessionId: string): Promise<Order | undefined>;
+  updateOrderStatus(sessionId: string, status: "completed" | "failed"): Promise<Order | undefined>;
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<string, User>;
+  private orders: Map<string, Order>;
 
   constructor() {
-    this.users = new Map();
+    this.orders = new Map();
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+  async createOrder(order: Order): Promise<Order> {
+    this.orders.set(order.stripeSessionId, order);
+    return order;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+  async getOrderBySessionId(sessionId: string): Promise<Order | undefined> {
+    return this.orders.get(sessionId);
   }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async updateOrderStatus(sessionId: string, status: "completed" | "failed"): Promise<Order | undefined> {
+    const order = this.orders.get(sessionId);
+    if (!order) return undefined;
+    const updatedOrder = { ...order, status };
+    this.orders.set(sessionId, updatedOrder);
+    return updatedOrder;
   }
 }
 
