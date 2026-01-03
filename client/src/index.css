@@ -5,28 +5,28 @@
 @tailwind utilities;
 
 :root {
-  /* HSL Color Space */
-  --background: 260 50% 10%; /* Deep cosmic purple/black */
-  --foreground: 210 20% 98%; /* Off-white stars */
+  /* HSL Color Space - Optimized for Cosmic Blueprint Logo */
+  --background: 240 40% 6%; /* Very deep night navy */
+  --foreground: 45 30% 95%; /* Creamy starlight */
   
-  --primary: 45 100% 60%; /* Golden starlight */
-  --primary-foreground: 260 50% 10%;
+  --primary: 43 75% 55%; /* Rich Logo Gold */
+  --primary-foreground: 240 40% 6%;
   
-  --secondary: 270 50% 25%; /* Deep purple secondary */
-  --secondary-foreground: 210 20% 98%;
+  --secondary: 240 30% 12%; /* Logo deep background navy */
+  --secondary-foreground: 45 75% 55%;
   
-  --muted: 260 30% 18%;
-  --muted-foreground: 260 20% 70%;
+  --muted: 240 25% 15%;
+  --muted-foreground: 240 15% 70%;
   
-  --accent: 300 60% 50%; /* Mystical magenta accent */
-  --accent-foreground: 210 20% 98%;
+  --accent: 38 90% 50%; /* Bright glowing gold */
+  --accent-foreground: 240 40% 6%;
   
   --destructive: 0 84% 60%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 260 30% 20%;
-  --input: 260 30% 20%;
-  --ring: 45 100% 60%;
+  --border: 240 30% 15%;
+  --input: 240 30% 15%;
+  --ring: 43 75% 55%;
   
   --radius: 0.5rem;
   
@@ -43,9 +43,9 @@
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
     background-image: 
-      radial-gradient(circle at 50% 0%, hsl(265, 80%, 20%, 0.4) 0%, transparent 50%),
-      radial-gradient(circle at 0% 50%, hsl(300, 50%, 15%, 0.3) 0%, transparent 40%),
-      radial-gradient(circle at 100% 80%, hsl(220, 60%, 15%, 0.3) 0%, transparent 40%);
+      radial-gradient(circle at 50% 0%, hsl(240, 40%, 15%, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 0% 50%, hsl(240, 30%, 10%, 0.3) 0%, transparent 40%),
+      radial-gradient(circle at 100% 80%, hsl(43, 75%, 5%, 0.2) 0%, transparent 40%);
     background-attachment: fixed;
   }
 
@@ -61,15 +61,15 @@
 
 @layer utilities {
   .text-glow {
-    text-shadow: 0 0 20px hsla(45, 100%, 60%, 0.3);
+    text-shadow: 0 0 20px hsla(43, 75%, 55%, 0.3);
   }
   
   .glass-card {
-    @apply bg-black/40 backdrop-blur-md border border-white/10 shadow-xl;
+    @apply bg-black/40 backdrop-blur-md border border-white/5 shadow-2xl;
   }
   
   .cosmic-gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-yellow-200 via-amber-400 to-yellow-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-yellow-100 via-primary to-yellow-700;
   }
 }
 
@@ -78,12 +78,12 @@
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: hsl(260, 50%, 5%);
+  background: hsl(240, 40%, 3%);
 }
 ::-webkit-scrollbar-thumb {
-  background: hsl(260, 30%, 30%);
+  background: hsl(240, 20%, 20%);
   border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: hsl(260, 30%, 40%);
+  background: hsl(43, 75%, 30%);
 }
