@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Sparkles } from "lucide-react";
+import logoUrl from "@/assets/logo.png";
 
 export function Footer() {
   return (
@@ -8,7 +8,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="space-y-4">
             <Link href="/" className="flex items-center space-x-2">
-              <Sparkles className="w-5 h-5 text-primary" />
+              <img src={logoUrl} alt="Cosmic Blueprint" className="w-8 h-8 object-contain" />
               <span className="font-display text-xl font-bold text-white">
                 Cosmic Blueprint
               </span>
