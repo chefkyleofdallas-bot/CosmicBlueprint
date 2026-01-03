@@ -25,6 +25,7 @@ export const astrologyInputSchema = z.object({
   timeOfBirth: z.string().optional(),
   cityOfBirth: z.string().min(1, "City of birth is required"),
   countryOfBirth: z.string().min(1, "Country of birth is required"),
+  customerEmail: z.string().email("Valid email is required"),
   reportType: ReportTypeEnum,
 });
 

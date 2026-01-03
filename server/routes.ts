@@ -20,6 +20,48 @@ export async function registerRoutes(
       const input = api.checkout.createSession.input.parse(req.body);
       const report = reportDetails[input.reportType];
 
+      // Admin bypass logic
+      const adminEmail = process.env.ADMIN_EMAIL || 'Kyle.merritt@cosmicblueprint.space';
+      if (input.customerEmail.toLowerCase() === adminEmail.toLowerCase()) {
+        const order: Order = {
+          id: `admin_${Date.now()}`,
+          customerEmail: input.customerEmail,
+          customerName: input.fullName,
+          reportType: input.reportType,
+          status: "completed",
+          stripeSessionId: `admin_${Date.now()}`,
+          createdAt: Date.now(),
+          astrologyData: {
+            fullName: input.fullName,
+            dateOfBirth: input.dateOfBirth,
+            timeOfBirth: input.timeOfBirth,
+            cityOfBirth: input.cityOfBirth,
+            countryOfBirth: input.countryOfBirth,
+          }
+        };
+        await storage.createOrder(order);
+        
+        // Background generation
+        (async () => {
+          try {
+            const pdfBytes = await generateReportPDF(order);
+            await sendEmail(
+              input.customerEmail,
+              "Admin Preview: Your Cosmic Blueprint Report",
+              `Hello Admin,\n\nHere is your free report for testing.\n\nWarmly,\nCosmic Blueprint`,
+              [{
+                filename: `Admin_Blueprint_${order.reportType}.pdf`,
+                content: Buffer.from(pdfBytes)
+              }]
+            );
+          } catch (e) {
+            console.error("Admin bypass email error:", e);
+          }
+        })();
+
+        return res.json({ url: '/success?admin=true' });
+      }
+
       // Get price ID from env or fallback (in a real app, fail if missing)
       const priceId = process.env[report.priceIdEnv] || 'price_mock_id';
       

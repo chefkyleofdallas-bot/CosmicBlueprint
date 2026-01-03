@@ -26,9 +26,14 @@ export function PurchaseModal({ isOpen, onClose, selectedReport }: PurchaseModal
       timeOfBirth: "",
       cityOfBirth: "",
       countryOfBirth: "",
+      customerEmail: "",
       reportType: selectedReport || "natal",
     },
   });
+
+  const customerEmail = form.watch("customerEmail");
+  const adminEmail = "Kyle.merritt@cosmicblueprint.space"; // In a real app, this would be from env
+  const isAdmin = customerEmail.toLowerCase() === adminEmail.toLowerCase();
 
   // Update report type if it changes
   if (selectedReport && form.getValues().reportType !== selectedReport) {
@@ -55,6 +60,20 @@ export function PurchaseModal({ isOpen, onClose, selectedReport }: PurchaseModal
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 mt-4">
+            <FormField
+              control={form.control}
+              name="customerEmail"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="your@email.com" className="bg-black/20 border-white/10" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="fullName"
@@ -131,12 +150,12 @@ export function PurchaseModal({ isOpen, onClose, selectedReport }: PurchaseModal
 
             <div className="pt-4 flex justify-between items-center border-t border-white/10 mt-6">
               <div className="text-sm text-gray-400">
-                Total: <span className="text-white font-bold text-lg ml-1">${reportDetails[selectedReport].price}</span>
+                Total: <span className="text-white font-bold text-lg ml-1">{isAdmin ? "FREE (Admin)" : `$${reportDetails[selectedReport].price}`}</span>
               </div>
               <Button 
                 type="submit" 
                 disabled={isPending}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 font-semibold"
+                className={`${isAdmin ? "bg-accent hover:bg-accent/90" : "bg-primary hover:bg-primary/90"} text-primary-foreground font-semibold`}
               >
                 {isPending ? (
                   <>
@@ -144,7 +163,7 @@ export function PurchaseModal({ isOpen, onClose, selectedReport }: PurchaseModal
                     Processing...
                   </>
                 ) : (
-                  "Proceed to Checkout"
+                  isAdmin ? "Generate Free Admin Report" : "Proceed to Checkout"
                 )}
               </Button>
             </div>
