@@ -11,12 +11,42 @@ export const reportTypes = [
 export const ReportTypeEnum = z.enum(reportTypes);
 export type ReportType = z.infer<typeof ReportTypeEnum>;
 
-export const reportDetails: Record<ReportType, { name: string; price: number; priceIdEnv: string }> = {
-  natal: { name: "Cosmic Blueprint – Natal Report", price: 29, priceIdEnv: "STRIPE_PRICE_ID_NATAL" },
-  karmic: { name: "Soul Path & Karmic Blueprint", price: 34, priceIdEnv: "STRIPE_PRICE_ID_KARMIC" },
-  love: { name: "Love & Relationship Blueprint", price: 39, priceIdEnv: "STRIPE_PRICE_ID_LOVE" },
-  career: { name: "Career & Life Direction Blueprint", price: 34, priceIdEnv: "STRIPE_PRICE_ID_CAREER" },
-  yearly: { name: "Yearly Personal Forecast", price: 24, priceIdEnv: "STRIPE_PRICE_ID_YEARLY" }
+export const reportDetails: Record<ReportType, { name: string; price: number; priceIdEnv: string; description: string; benefits: string[] }> = {
+  natal: { 
+    name: "Natal Chart Reading", 
+    price: 49, 
+    priceIdEnv: "STRIPE_PRICE_ID_NATAL",
+    description: "A comprehensive analysis of your birth chart revealing your core personality, strengths, challenges, and life purpose.",
+    benefits: ["Complete planetary positions", "House interpretations", "Aspect analysis", "Life path insights"]
+  },
+  karmic: { 
+    name: "Karmic Blueprint", 
+    price: 69, 
+    priceIdEnv: "STRIPE_PRICE_ID_KARMIC",
+    description: "Explore your soul's journey through past life influences, karmic lessons, and evolutionary path.",
+    benefits: ["North & South Node analysis", "Past life patterns", "Karmic debt insights", "Soul mission guidance"]
+  },
+  love: { 
+    name: "Love & Compatibility", 
+    price: 59, 
+    priceIdEnv: "STRIPE_PRICE_ID_LOVE",
+    description: "Understand your romantic nature and relationship dynamics with a partner or discover your ideal match.",
+    benefits: ["Venus & Mars placements", "Synastry analysis (with partner)", "Love language insights", "Relationship patterns"]
+  },
+  career: { 
+    name: "Career & Purpose", 
+    price: 59, 
+    priceIdEnv: "STRIPE_PRICE_ID_CAREER",
+    description: "Discover your professional strengths, ideal career paths, and how to align work with your cosmic blueprint.",
+    benefits: ["Midheaven & 10th house analysis", "Natural talents & skills", "Career timing insights", "Professional purpose alignment"]
+  },
+  yearly: { 
+    name: "Yearly Forecast", 
+    price: 79, 
+    priceIdEnv: "STRIPE_PRICE_ID_YEARLY",
+    description: "A detailed look at the upcoming year with monthly themes, opportunities, and cosmic guidance.",
+    benefits: ["Solar return analysis", "Monthly transit guide", "Key dates & timing", "Growth opportunities"]
+  }
 };
 
 export const astrologyInputSchema = z.object({
