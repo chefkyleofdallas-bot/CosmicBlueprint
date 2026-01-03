@@ -1,0 +1,131 @@
+You are an expert full-stack product engineer, UI/UX designer, compliance-aware developer, and astrology systems writer. Build a production-ready web application for Cosmic Blueprint, optimized for free-tier hosting and clean deployment on Vercel.
+
+BRAND
+- Cosmic Blueprint
+- Tagline: “Precision Astrology, Personally Designed”
+- Visuals:
+  - Must use /public/images/logo.png (navbar, PDF cover, email header)
+  - Must use /public/images/hero.png (landing hero)
+
+TECH CHOICE (PREFERRED)
+- Use Next.js (App Router) + Tailwind CSS
+- Use Vercel Serverless API routes for backend
+- Payments: Stripe Checkout
+- PDF: pdf-lib (serverless-safe)
+- Email: nodemailer SMTP (serverless-safe)
+- No database required for MVP
+
+CORE FEATURES
+A) Landing page (/) with premium, high-end design:
+- Hero section (dark cosmic background, hero image)
+- Brand title + tagline
+- CTA “Explore Your Blueprint”
+- Report catalog section with 5 reports:
+  1) Cosmic Blueprint – Natal Report — $29
+  2) Soul Path & Karmic Blueprint — $34
+  3) Love & Relationship Blueprint — $39
+  4) Career & Life Direction Blueprint — $34
+  5) Yearly Personal Forecast — $24
+Each report card must include:
+- What it is
+- Benefits
+- Outcome
+- Price
+- Purchase button
+
+B) Checkout flow:
+- Purchase button calls /api/create-checkout-session with report_type
+- Redirect to Stripe Checkout
+- Stripe success redirect to /success?session_id=...
+- Never trust session_id alone—verify using Stripe secret key
+
+C) Post-payment fulfillment (automatic):
+- Use Stripe webhook (/api/stripe-webhook) as the source of truth
+- On successful payment event:
+  1) Collect customer email + metadata from Stripe session
+  2) Generate a branded PDF report
+  3) Email the PDF to the customer
+  4) Email transaction confirmation to Kyle.merritt@cosmicblueprint.space
+
+D) Input collection for astrology:
+- Collect the following:
+  - Full name
+  - Date of birth
+  - Time of birth (optional)
+  - City + country of birth
+- If time missing, use Solar chart logic and label it clearly
+- Astrology style:
+  - Tropical Zodiac
+  - Placidus houses (if birth time present)
+  - Psychological + symbolic language
+  - No fear-based deterministic claims
+  - No medical/legal claims
+
+E) Legal pages:
+- /privacy
+- /terms
+- /disclaimer
+Include:
+- Data used only for report creation and delivery
+- Payments handled by Stripe
+- Astrology disclaimer: for reflection only; not medical/legal/psych advice
+
+PDF REQUIREMENTS
+- Multi-page PDF with:
+  1) Cover page (logo, report title, client name, date)
+  2) Introduction
+  3) Main report sections (with headings, spacing, clean typography)
+  4) Closing insight
+  5) Disclaimer page
+- Must look premium, not plain text
+- Use consistent typography and margins
+
+EMAIL REQUIREMENTS
+- Customer email:
+  - Subject: “Your Cosmic Blueprint Report Is Ready”
+  - Warm, premium tone
+  - Attach PDF
+- Internal email to Kyle:
+  - Subject: “New Cosmic Blueprint Order: <Report Type>”
+  - Include name/email/report type/timestamp
+
+ENV VARS (document in README)
+- STRIPE_SECRET_KEY
+- STRIPE_WEBHOOK_SECRET
+- STRIPE_PRICE_ID_NATAL
+- STRIPE_PRICE_ID_KARMIC
+- STRIPE_PRICE_ID_LOVE
+- STRIPE_PRICE_ID_CAREER
+- STRIPE_PRICE_ID_YEARLY
+- SMTP_HOST
+- SMTP_PORT
+- SMTP_USER
+- SMTP_PASS
+- EMAIL_FROM (support@cosmicblueprint.space)
+- KYLE_NOTIFY_EMAIL (Kyle.merritt@cosmicblueprint.space)
+- NEXT_PUBLIC_SITE_URL
+
+QUALITY & SECURITY
+- Validate inputs
+- Sanitize strings used in PDF
+- Never commit secrets
+- Handle errors gracefully
+- Log only non-sensitive diagnostics
+- Keep dependencies minimal and serverless-friendly
+
+OUTPUT REQUIRED
+- Full Next.js project with Tailwind
+- All pages + components
+- API routes:
+  - /api/create-checkout-session
+  - /api/stripe-webhook
+- PDF generator module
+- Email service module
+- README with:
+  - Local run instructions
+  - Stripe setup
+  - Webhook setup
+  - Vercel deploy steps
+  - Testing steps
+
+BEGIN BUILDING NOW.
