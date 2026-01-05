@@ -1,9 +1,32 @@
 import { type NextRequest, NextResponse } from "next/server"
-import Stripe from "stripe"
+import { getStripe } from "@/lib/stripe";
+import { NextResponse } from "next/server";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2024-12-18.acacia",
-})
+export async function POST(req: Request) {
+  const stripe = getStripe();
+
+  const { reportType, customerName, customerEmail } = await req.json();
+
+  const session = await stripe.checkout.sessions.create({
+    mode: "payment",
+    line_items: [
+      {
+        price: process.env[`STRIPE_PRICE_${reportType.toUpperCase()}`],
+        quantity: 1,
+      },
+    ],
+    customer_email: customerEmail,
+    metadata: {
+      report_type: reportType,
+      customer_name: customerName,
+    },
+    success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/success`,
+    cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/`,
+  });
+
+  return NextResponse.json({ url: session.url });
+}
+
 
 export async function POST(req: NextRequest) {
   try {
